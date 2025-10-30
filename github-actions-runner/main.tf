@@ -46,3 +46,25 @@ resource "google_compute_firewall" "runner_firewall" {
   target_tags = var.target_tags
 }
 
+resource "google_compute_instance" "runner_vm" {
+  
+  name = "${var.base_name}-vm"
+  machine_type = var.runner_machine_type
+
+  boot_disk {
+    initialize_params {
+      image = var.runner_image
+    }
+  }
+
+  network_interface {
+    network = google_compute_network.runner_vpc.id
+    subnetwork = google_compute_subnetwork.runner_subnet.id
+    access_config {
+      
+    }
+  }
+
+  tags = var.target_tags
+
+}
