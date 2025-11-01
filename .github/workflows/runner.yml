@@ -33,6 +33,12 @@ jobs:
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3.1.2
 
+      - name: Validate .tf files
+        run: terraform validate
+
+      - name: Format Check
+        run: terraform fmt -check
+
       - name: Terraform Init
         run: terraform init
 
