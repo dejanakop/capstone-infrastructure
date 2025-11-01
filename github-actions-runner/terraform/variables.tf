@@ -17,4 +17,3 @@ variable "target_tags" { type = list(string) }
 # VM
 variable "runner_machine_type" { type = string }
 variable "runner_image" { type = string }
-variable "ssh_key_path" { type = string }
