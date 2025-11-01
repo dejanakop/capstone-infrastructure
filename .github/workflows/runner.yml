@@ -30,6 +30,10 @@ jobs:
 
     needs: fetch_tf_vars
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./github-actions-runner/terraform
+        
     steps:
 
       - name: Checkout
