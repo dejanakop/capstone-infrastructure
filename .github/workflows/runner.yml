@@ -28,6 +28,7 @@ jobs:
 
   terraform:
 
+    needs: fetch_tf_vars
     runs-on: ubuntu-latest
     steps:
 
