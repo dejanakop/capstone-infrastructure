@@ -65,10 +65,6 @@ resource "google_compute_instance" "runner_vm" {
     }
   }
 
-  provisioner "local-exec" {
-    command = "ansible-galaxy collection install google.cloud --force && ansible-playbook -i ${google_compute_instance.runner_vm.network_interface[0].access_config[0].nat_ip}, --private-key ${var.ssh_key_path} ./runner_setup.yaml"
-  }
-
   tags = var.target_tags
 
 }
