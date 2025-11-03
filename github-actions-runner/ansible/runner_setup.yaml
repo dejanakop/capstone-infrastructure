@@ -1,6 +1,5 @@
 - name: GitHub Runner Configuration
   hosts: all
-  remote_user: ${{ secrets.USER }}
   become: true
   gather_facts: false
   vars_files:
