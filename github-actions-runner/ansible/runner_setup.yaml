@@ -1,5 +1,6 @@
 - name: GitHub Runner Configuration
   hosts: all
+  remote_user: ${{ secrets.USER }}
   become: true
   gather_facts: false
   vars_files:
@@ -10,7 +11,6 @@
   tasks:
 
     - name: Connect
-      user: ${{ secrets.USER }}
       ansible.builtin.shell: gcloud compute ssh github-actions-runner-dkop-vm
 
     # - name: Connect to VM instance using SSH
