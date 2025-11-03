@@ -6,6 +6,9 @@
     - ./vars.yaml
   vars:
     ansible_python_interpreter: /usr/bin/python3.9
+    OWNER: dejanakop
+    REPOSITORY: capstone-infrastructure
+    REPOSITORY_URL: https://github.com/dejanakop/capstone-infrastructure
 
   tasks:
 
@@ -23,3 +26,33 @@
             echo "194f1e1e4bd02f80b7e9633fc546084d8d4e19f3928a324d512ea53430102e1d  actions-runner-linux-x64-2.329.0.tar.gz" | shasum -a 256 -c
             tar xzf ./actions-runner-linux-x64-2.329.0.tar.gz
           become: true
+
+        - name: Install jq
+          ansible.builtin.package:
+            name: jq
+            state: present
+          become: true
+
+        - name: Get Runner Token
+          ansible.builtin.uri:
+            url: "https://api.github.com/repos/${{ OWNER }}/${{ REPOSITORY }}/actions/runners/registration-token"
+            method: POST
+            headers:
+              Accept: "application/vnd.github+json"
+              Authorization: "Bearer ${{ secrets.GH_PAT }}"
+              X-GitHub-Api-Version: "2022-11-28"
+            status_code: 201
+            return_content: true
+          register: runner_token_response
+
+        - name: Configure Runner
+          ansible.builtin.shell: |
+            ./config.sh --url {{ REPOSITORY_URL }} --token {{ runner_token_response.json.token }} --unattended --runnergroup "Default"
+          args:
+            chdir: /home/${{ secrets.USER }}/actions-runner
+
+        - name: Run Runner
+          ansible.builtin.shell: |
+            nohup ./run.sh &
+          args:
+            chdir: /home/${{ secrets.USER }}/actions-runner
