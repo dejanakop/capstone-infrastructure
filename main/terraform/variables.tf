@@ -13,3 +13,5 @@ variable "ip_cidr_range" { type = string }
 # CLUSTER
 variable "remove_default_node_pool" { type = bool }
 variable "initial_node_count" { type = number }
+variable "node_count" { type = number }
+variable "node_machine_type" { type = string }

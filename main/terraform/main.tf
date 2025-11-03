@@ -32,4 +32,7 @@ module "gke" {
   vpc_id                   = module.network.vpc_id
   subnet_id                = module.network.subnet_id
   location                 = var.zone
+  node_pool_name           = "${var.base_name}-node-pool"
+  node_count               = var.node_count
+  node_machine_type        = var.node_machine_type
 }
