@@ -17,9 +17,9 @@ provider "google" {
 }
 
 module "network" {
-  source = "./modules/network"
-  vpc_name = "${var.base_name}-vpc"
+  source                  = "./modules/network"
+  vpc_name                = "${var.base_name}-vpc"
   auto_create_subnetworks = var.auto_create_subnetworks
-  subnet_name = "${var.base_name}-subnet"
-  ip_cidr_range = var.ip_cidr_range
+  subnet_name             = "${var.base_name}-subnet"
+  ip_cidr_range           = var.ip_cidr_range
 }
