@@ -39,7 +39,7 @@
             method: POST
             headers:
               Accept: "application/vnd.github+json"
-              Authorization: "Bearer ${{ secrets.GH_PAT }}"
+              Authorization: "Bearer ${{ GH_PAT }}"
               X-GitHub-Api-Version: "2022-11-28"
             status_code: 201
             return_content: true
@@ -49,10 +49,10 @@
           ansible.builtin.shell: |
             ./config.sh --url {{ REPOSITORY_URL }} --token {{ runner_token_response.json.token }} --unattended --runnergroup "Default"
           args:
-            chdir: /home/${{ secrets.USER }}/actions-runner
+            chdir: /home/${{ USER }}/actions-runner
 
         - name: Run Runner
           ansible.builtin.shell: |
             nohup ./run.sh &
           args:
-            chdir: /home/${{ secrets.USER }}/actions-runner
+            chdir: /home/${{ USER }}/actions-runner
