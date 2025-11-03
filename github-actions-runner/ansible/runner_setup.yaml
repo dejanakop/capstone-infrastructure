@@ -43,10 +43,10 @@
           ansible.builtin.shell: |
             ./config.sh --url {{ REPOSITORY_URL }} --token {{ runner_token_response.json.token }} --unattended --runnergroup "Default"
           args:
-            chdir: /home/{{ USER }}/actions-runner
+            chdir: /opt/actions-runner
 
         - name: Run Runner
           ansible.builtin.shell: |
             nohup ./run.sh &
           args:
-            chdir: /home/{{ USER }}/actions-runner
+            chdir: /opt/actions-runner
