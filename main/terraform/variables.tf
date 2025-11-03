@@ -9,3 +9,7 @@ variable "zone" { type = string }
 # NETWORK
 variable "auto_create_subnetworks" { type = bool }
 variable "ip_cidr_range" { type = string }
+
+# CLUSTER
+variable "remove_default_node_pool" { type = bool }
+variable "initial_node_count" { type = number }
