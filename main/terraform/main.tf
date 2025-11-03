@@ -35,4 +35,6 @@ module "gke" {
   node_pool_name           = "${var.base_name}-node-pool"
   node_count               = var.node_count
   node_machine_type        = var.node_machine_type
+  disk_type                = var.disk_type
+  disk_size_gb             = var.disk_size_gb
 }

@@ -8,3 +8,5 @@ variable "location" { type = string }
 variable "node_pool_name" { type = string }
 variable "node_count" { type = number }
 variable "node_machine_type" { type = string }
+variable "disk_type" { type = string }
+variable "disk_size_gb" { type = number }
