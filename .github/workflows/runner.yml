@@ -95,4 +95,4 @@ jobs:
           " > ansible.cfg
 
       - name: Run Ansible Playbook
-        run: ansible-playbook runner_setup.yaml -i inventory.ini --extra-vars "remote_user=${{ secrets.USER }}"
+        run: ansible-playbook runner_setup.yaml -i inventory.ini --extra-vars "ansible_user=${{ secrets.USER }}"
