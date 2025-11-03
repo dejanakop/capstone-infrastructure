@@ -11,6 +11,8 @@ jobs:
     defaults:
       run:
         working-directory: ./github-actions-runner/terraform
+    outputs:
+      runner_ip: ${{ steps.output.outputs.runner_ip }}
         
     steps:
 
@@ -47,3 +49,50 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply --auto-approve
+
+      - name: Terraform Output
+        id: output
+        run: |
+          echo "runner_ip=$(terraform output -raw runner_ip)" >> $GITHUB_OUTPUT
+
+  ansible:
+
+    needs: terraform
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./github-actions-runner/ansible
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Add SSH key
+        run: | 
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/key
+          chmod 400 ~/.ssh/key
+
+      - name: Install Ansible
+        run: pip install ansible
+
+      - name: Create inventory.ini
+        run: |
+          TARGET_HOST=${{ needs.terraform.outputs.runner_ip }}
+          echo "
+          [webservers]
+          ${TARGET_HOST}" > inventory.ini
+
+      - name: Create Ansible Config file
+        run: |
+          echo "
+          [defaults]
+          ansible_python_interpreter=/usr/bin/python3
+          inventory=inventory.ini
+          host_key_checking=False
+          private_key_file=~/.ssh/key
+          " > ansible.cfg
+
+      - name: Run Ansible Playbook
+        run: ansible-playbook runner_setup.yaml -i inventory.ini
