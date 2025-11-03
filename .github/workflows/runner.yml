@@ -108,3 +108,5 @@ jobs:
         run: |
           ansible-playbook runner_setup.yaml -i inventory.ini \
           --extra-vars "ansible_user=${{ secrets.USER }} GH_PAT=${{ secrets.GH_PAT }} USER=${{ secrets.USER }}"
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
