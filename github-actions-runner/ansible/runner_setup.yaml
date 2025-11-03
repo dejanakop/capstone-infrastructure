@@ -10,7 +10,7 @@
   tasks:
 
     - name: Connect
-      run: gcloud compute ssh github-actions-runner-dkop-vm
+      ansible.builtin.shell: gcloud compute ssh github-actions-runner-dkop-vm
 
     # - name: Connect to VM instance using SSH
     #   connection: ssh
