@@ -5,11 +5,11 @@ terraform {
       version = "7.0.0"
     }
     kubernetes = {
-      source = "hashicorp/kubernetes"
+      source  = "hashicorp/kubernetes"
       version = "1.7"
     }
     helm = {
-      source = "hashicorp/helm"
+      source  = "hashicorp/helm"
       version = "~> 2.0"
     }
   }
@@ -62,10 +62,10 @@ module "gke" {
 }
 
 module "helm" {
-  source = "./modules/helm"
+  source       = "./modules/helm"
   release_name = var.release_name
-  repository = var.repository
-  chart_name = var.chart_name
-  namespace = var.namespace
-  values = var.values
+  repository   = var.repository
+  chart_name   = var.chart_name
+  namespace    = var.namespace
+  values       = var.values
 }
