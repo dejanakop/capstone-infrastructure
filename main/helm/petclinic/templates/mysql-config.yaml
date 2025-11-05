@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: {{ .Values.mysql.name }}-config
-data:
-  mysql-url: {{ .Values.mysql.name }}-service
