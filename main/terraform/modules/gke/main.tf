@@ -15,6 +15,7 @@ resource "google_container_node_pool" "nodes" {
     machine_type = var.node_machine_type
     disk_type    = var.disk_type
     disk_size_gb = var.disk_size_gb
+    tags         = var.tags
   }
   autoscaling {
     min_node_count = var.min_node_count

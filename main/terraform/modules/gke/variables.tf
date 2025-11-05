@@ -14,3 +14,4 @@ variable "min_node_count" { type = number }
 variable "max_node_count" { type = number }
 variable "auto_repair" { type = bool }
 variable "auto_upgrade" { type = bool }
+variable "tags" { type = list(string) }

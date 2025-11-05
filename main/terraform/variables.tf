@@ -10,6 +10,11 @@ variable "kubernetes_config_path" { type = string }
 # NETWORK
 variable "auto_create_subnetworks" { type = bool }
 variable "ip_cidr_range" { type = string }
+# FIREWALL
+variable "protocol" { type = string }
+variable "ports" { type = list(string) }
+variable "source_ranges" { type = list(string) }
+variable "target_tags" { type = list(string) }
 
 # CLUSTER
 variable "remove_default_node_pool" { type = bool }

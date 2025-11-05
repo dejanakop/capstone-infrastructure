@@ -22,6 +22,11 @@ module "network" {
   auto_create_subnetworks = var.auto_create_subnetworks
   subnet_name             = "${var.base_name}-subnet"
   ip_cidr_range           = var.ip_cidr_range
+  firewall_name           = "${var.base_name}-firewall"
+  protocol                = var.protocol
+  ports                   = var.ports
+  source_ranges           = var.source_ranges
+  target_tags             = var.target_tags
 }
 
 module "gke" {
@@ -41,4 +46,5 @@ module "gke" {
   max_node_count           = var.max_node_count
   auto_repair              = var.auto_repair
   auto_upgrade             = var.auto_upgrade
+  tags                     = var.target_tags
 }
