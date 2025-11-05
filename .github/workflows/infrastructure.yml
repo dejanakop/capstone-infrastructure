@@ -74,4 +74,4 @@ jobs:
           sudo mv linux-amd64/helm /usr/local/bin/helm
       
       - name: Install Chart
-        run: helm install petclinic ../helm/petclinic
+        run: helm upgrade --install petclinic ../helm/petclinic
