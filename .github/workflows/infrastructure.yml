@@ -45,6 +45,10 @@ jobs:
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3.1.2
 
+      - name: Configure GKE credentials
+        run: |
+          gcloud container clusters get-credentials {{ secrets.CLUSTER_NAME }}
+
       - name: Terraform Init
         run: terraform init
 
