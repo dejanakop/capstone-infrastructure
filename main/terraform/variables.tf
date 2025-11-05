@@ -17,3 +17,7 @@ variable "node_count" { type = number }
 variable "node_machine_type" { type = string }
 variable "disk_type" { type = string }
 variable "disk_size_gb" { type = number }
+variable "min_node_count" { type = number }
+variable "max_node_count" { type = number }
+variable "auto_repair" { type = bool }
+variable "auto_upgrade" { type = bool }

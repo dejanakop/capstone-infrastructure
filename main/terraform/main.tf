@@ -37,4 +37,8 @@ module "gke" {
   node_machine_type        = var.node_machine_type
   disk_type                = var.disk_type
   disk_size_gb             = var.disk_size_gb
+  min_node_count           = var.min_node_count
+  max_node_count           = var.max_node_count
+  auto_repair              = var.auto_repair
+  auto_upgrade             = var.auto_upgrade
 }
