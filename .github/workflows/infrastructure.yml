@@ -67,5 +67,11 @@ jobs:
         run: |
           gcloud container clusters get-credentials ${{ secrets.CLUSTER_NAME }} --zone ${{ secrets.ZONE }}
 
+      - name: Install Helm
+        run: |
+          wget https://get.helm.sh/helm-v3.13.0-linux-amd64.tar.gz -O helm.tar.gz
+          tar -zxvf helm.tar.gz
+          sudo mv linux-amd64/helm /usr/local/bin/helm
+      
       - name: Install Chart
         run: helm install petclinic ../helm/petclinic
