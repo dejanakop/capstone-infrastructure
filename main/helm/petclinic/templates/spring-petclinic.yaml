@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.petclinic.name }}-deployment
+spec:
+  replicas: {{ .Values.petclinic.deployment.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.petclinic.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.petclinic.name }}
+    spec:
+      containers:
+        - name: {{ .Values.petclinic.name }}
+          image: {{ .Values.petclinic.deployment.image }}
+          ports:
+            - containerPort: {{ .Values.petclinic.deployment.containerPort }}
+          env:
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mysql.name }}-secret
+                  key: {{ .Values.mysql.name }}-user
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mysql.name }}-secret
+                  key: {{ .Values.mysql.name }}-password
+            - name: MYSQL_DB_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.mysql.name }}-config
+                  key: {{ .Values.mysql.name }}-url
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.petclinic.name }}-service
+spec:
+  type: {{ .Values.petclinic.service.type }}
+  selector:
+    app: {{ .Values.petclinic.name }}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.petclinic.service.port }}
+      targetPort: {{ .Values.petclinic.service.targetPort }}

@@ -1,0 +1,62 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.mysql.name }}-deployment
+  labels:
+    app: {{ .Values.mysql.name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.mysql.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.mysql.name }}
+    spec:
+      volumes:
+        - name: {{ .Values.mysql.name }}-persistent-storage
+          persistentVolumeClaim:
+            claimName: {{ .Values.mysql.name }}-claim
+      containers:
+        - name: {{ .Values.mysql.name }}
+          image: {{ .Values.mysql.deployment.image }}
+          ports:
+            - containerPort: {{ .Values.mysql.deployment.containerPort }}
+          volumeMounts:
+            - mountPath: {{ .Values.mysql.deployment.mountPath }}
+              name: {{ .Values.mysql.name }}-persistent-storage
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mysql.name }}-secret
+                  key: {{ .Values.mysql.name }}-root-password
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mysql.name }}-secret
+                  key: {{ .Values.mysql.name }}-database
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mysql.name }}-secret
+                  key: {{ .Values.mysql.name }}-user
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mysql.name }}-secret
+                  key: {{ .Values.mysql.name }}-password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.mysql.name }}-service
+spec:
+  selector:
+    app: {{ .Values.mysql.name }}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.mysql.deployment.containerPort }}
+      targetPort: {{ .Values.mysql.deployment.containerPort }}

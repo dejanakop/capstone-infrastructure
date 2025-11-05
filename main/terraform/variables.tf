@@ -5,6 +5,7 @@ variable "base_name" { type = string }
 variable "project" { type = string }
 variable "region" { type = string }
 variable "zone" { type = string }
+variable "kubernetes_config_path" { type = string }
 
 # NETWORK
 variable "auto_create_subnetworks" { type = bool }
@@ -21,3 +22,10 @@ variable "min_node_count" { type = number }
 variable "max_node_count" { type = number }
 variable "auto_repair" { type = bool }
 variable "auto_upgrade" { type = bool }
+
+# HELM
+variable "release_name" { type = string }
+variable "repository" { type = string }
+variable "chart_name" { type = string }
+variable "namespace" { type = string }
+variable "values" { type = list(string) }

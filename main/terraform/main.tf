@@ -4,6 +4,14 @@ terraform {
       source  = "hashicorp/google"
       version = "7.0.0"
     }
+    kubernetes = {
+      source = "hashicorp/kubernetes"
+      version = "1.7"
+    }
+    helm = {
+      source = "hashicorp/helm"
+      version = "~> 2.0"
+    }
   }
   backend "gcs" {
     bucket = "dkop-capstone-main-tf-backend"
@@ -14,6 +22,16 @@ provider "google" {
   project = var.project
   region  = var.region
   zone    = var.zone
+}
+
+provider "kubernetes" {
+  config_path = var.kubernetes_config_path
+}
+
+provider "helm" {
+  kubernetes {
+    config_path = var.kubernetes_config_path
+  }
 }
 
 module "network" {
@@ -41,4 +59,13 @@ module "gke" {
   max_node_count           = var.max_node_count
   auto_repair              = var.auto_repair
   auto_upgrade             = var.auto_upgrade
+}
+
+module "helm" {
+  source = "./modules/helm"
+  release_name = var.release_name
+  repository = var.repository
+  chart_name = var.chart_name
+  namespace = var.namespace
+  values = var.values
 }
