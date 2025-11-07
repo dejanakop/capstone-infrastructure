@@ -1,0 +1,36 @@
+name: Destroy Infrastructure
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  destroy:
+    runs-on: self-hosted
+    defaults:
+      run:
+        working-directory: ./main/terraform
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Authenticate
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+  
+      - name: Gcloud Setup
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ secrets.PROJECT_ID }}
+
+      - name: Download .tfvars file
+        run: gsutil cp ${{ secrets.MAIN_TF_VARS_PATH }} ./terraform.tfvars
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3.1.2
+
+      - name: Terraform Destroy
+        run: terraform destroy --auto-approve
