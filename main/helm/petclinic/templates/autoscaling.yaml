@@ -1,6 +1,7 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
+  name: spring-petclinic-hpa
   labels:
     app: spring-petclinic
 spec:
