@@ -5,6 +5,7 @@ resource "google_container_cluster" "cluster" {
   network                  = var.vpc_id
   subnetwork               = var.subnet_id
   location                 = var.location
+  deletion_protection      = false
 }
 
 resource "google_container_node_pool" "nodes" {
