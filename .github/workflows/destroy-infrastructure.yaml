@@ -14,7 +14,7 @@ on:
 
 jobs:
 
-  destroy:
+  terraform_destroy:
     runs-on: self-hosted
     defaults:
       run:
