@@ -2,10 +2,15 @@ name: Plan Infrastructure
 
 on:
   workflow_dispatch:
-  push:
-    branches: ['main']
-  pull_request:
-    branches: ['main']
+    inputs:
+      environment:
+        description: 'Target environment'
+        required: true
+        type: choice
+        options:
+          - 'dev'
+          - 'qa'
+          - 'production'
 
 jobs:
 
@@ -14,7 +19,7 @@ jobs:
     runs-on: self-hosted
     defaults:
       run:
-        working-directory: ./main/terraform
+        working-directory: ./main/env/${{ github.events.inputs.environment }}
 
     steps:
 
@@ -69,7 +74,7 @@ jobs:
     runs-on: self-hosted
     defaults:
       run:
-        working-directory: ./main/terraform
+        working-directory: ./main/env/${{ github.events.inputs.environment }}
 
     steps:
 
