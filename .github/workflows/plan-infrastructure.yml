@@ -60,6 +60,9 @@ jobs:
       - name: Run tflint
         run: tflint --recursive
 
+      - name: Install Docker
+        uses: docker/setup-docker-action@v4
+
       - name: Run tfsec
         uses: aquasecurity/tfsec-action@v1.0.3
 
