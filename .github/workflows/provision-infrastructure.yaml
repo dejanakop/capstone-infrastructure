@@ -2,6 +2,15 @@ name: Provision Infrastructure
 
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment'
+        required: true
+        type: choice
+        options:
+          - 'dev'
+          - 'qa'
+          - 'production'
 
 jobs:
 
@@ -9,7 +18,7 @@ jobs:
     runs-on: self-hosted
     defaults:
       run:
-        working-directory: ./main/terraform
+        working-directory: ./main/env/${{ github.event.inputs.environment }}/
 
     steps:
 
