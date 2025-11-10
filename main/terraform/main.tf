@@ -1,5 +1,5 @@
 terraform {
-  required_version = "1.13.4"
+  required_version = ">= 1.13.4"
   required_providers {
     google = {
       source  = "hashicorp/google"
@@ -55,7 +55,7 @@ module "db" {
   db_instance_name    = "${var.base_name}-db-instance"
   db_instance_version = var.db_instance_version
   db_instance_tier    = var.db_instance_tier
-  db_name             = "${var.db_name}-db"
+  db_name             = "${var.base_name}-db"
   db_username         = var.db_username
   db_user_password    = var.db_user_password
 }
