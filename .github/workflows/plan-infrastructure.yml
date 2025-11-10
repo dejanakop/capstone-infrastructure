@@ -9,7 +9,7 @@ on:
 
 jobs:
 
-  terraform_plan:
+  terraform_check:
   
     runs-on: self-hosted
     defaults:
@@ -34,9 +34,6 @@ jobs:
       - name: Download .tfvars file
         run: gsutil cp ${{ secrets.MAIN_TF_VARS_PATH }} ./terraform.tfvars
 
-      - name: Install unzip
-        run: sudo apt-get update && sudo apt-get install -y unzip
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -44,9 +41,6 @@ jobs:
 
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3.1.2
-
-      - name: Install kubectl
-        run: gcloud components install kubectl
 
       - name: Terraform Init
         run: terraform init
@@ -57,21 +51,30 @@ jobs:
       - name: Format Check
         run: terraform fmt -check -recursive
 
+      - name: Set Up tflint
+        uses: terraform-linters/setup-tflint@v6
+
+      - name: Init tflint
+        run: tflint --init
+
+      - name: Run tflint
+        run: tflint --recursive
+
+      - name: Run tfsec
+        uses: aquasecurity/tfsec-action@v1
+
+  terraform_plan:
+
+    needs: [ "terraform_check" ]
+    runs-on: self-hosted
+    defaults:
+      run:
+        working-directory: ./main/terraform
+
+    steps:
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3.1.2
+
       - name: Terraform Plan
         run: terraform plan
-
-      - name: Terraform Apply
-        run: terraform apply --auto-approve
-
-      - name: Configure GKE credentials
-        run: |
-          gcloud container clusters get-credentials ${{ secrets.CLUSTER_NAME }} --zone ${{ secrets.ZONE }}
-
-      - name: Install Helm
-        run: |
-          wget https://get.helm.sh/helm-v3.13.0-linux-amd64.tar.gz -O helm.tar.gz
-          tar -zxvf helm.tar.gz
-          sudo mv linux-amd64/helm /usr/local/bin/helm
-      
-      - name: Install Chart
-        run: helm upgrade --install petclinic ../helm/petclinic
