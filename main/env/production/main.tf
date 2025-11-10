@@ -18,7 +18,7 @@ provider "google" {
 }
 
 module "network" {
-  source                  = "../../terraform/modules/network"
+  source                  = "../../modules/network"
   vpc_name                = "${var.base_name}-vpc"
   auto_create_subnetworks = var.auto_create_subnetworks
   subnet_name             = "${var.base_name}-subnet"
@@ -31,7 +31,7 @@ module "network" {
 }
 
 module "gke" {
-  source                   = "../../terraform/modules/gke"
+  source                   = "../../modules/gke"
   cluster_name             = "${var.base_name}-cluster"
   remove_default_node_pool = var.remove_default_node_pool
   initial_node_count       = var.initial_node_count
@@ -51,7 +51,7 @@ module "gke" {
 }
 
 module "db" {
-  source              = "../../terraform/modules/db"
+  source              = "../../modules/db"
   db_instance_name    = "${var.base_name}-db-instance"
   db_instance_version = var.db_instance_version
   db_instance_tier    = var.db_instance_tier
