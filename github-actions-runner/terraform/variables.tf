@@ -17,3 +17,7 @@ variable "target_tags" { type = list(string) }
 # VM
 variable "runner_machine_type" { type = string }
 variable "runner_image" { type = string }
+variable "github_pat" {
+  type      = string
+  sensitive = true
+}
