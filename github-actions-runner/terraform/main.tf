@@ -172,12 +172,6 @@ resource "google_compute_instance" "runner_vm" {
   echo "Extracting..."
   tar xzf actions-runner-linux-x64-2.329.0.tar.gz
   
-  echo "Installing dependencies..."
-  apt-get update -y
-  apt-get install -y jq curl tar unzip
-  
-  GITHUB_PAT="${var.github_pat}"
-  
   echo "Requesting registration token..."
   TOKEN_RESULT=$(curl -s -X POST \
     -H "Authorization: token $GITHUB_PAT" \
@@ -194,7 +188,6 @@ resource "google_compute_instance" "runner_vm" {
   echo "Runner token acquired: $TOKEN"
   
   echo "Configuring runner..."
-  useradd -m runner
   chown -R runner:runner /opt/github-runner-petclinic
   
   sudo -u runner bash -c "
