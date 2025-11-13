@@ -108,10 +108,12 @@ resource "google_compute_instance" "runner_vm" {
     echo "Network not ready, retrying..."
     sleep 2
   done
+
+  ###################################### GITHUB RUNNER FOR INFRASTRUCTURE REPO #####################################
   
   cd /opt
-  mkdir -p github-runner
-  cd github-runner
+  mkdir -p github-runner-infrastructure
+  cd github-runner-infrastructure
   
   echo "Downloading GitHub Actions Runner..."
   curl -fsSL -o actions-runner-linux-x64-2.329.0.tar.gz \
@@ -143,10 +145,60 @@ resource "google_compute_instance" "runner_vm" {
   
   echo "Configuring runner..."
   useradd -m runner
-  chown -R runner:runner /opt/github-runner
+  chown -R runner:runner /opt/github-runner-infrastructure
   
   sudo -u runner bash -c "
-  cd /opt/github-runner
+  cd /opt/github-runner-infrastructure
+  ./config.sh \
+    --url https://github.com/dejanakop/capstone-infrastructure \
+    --token '$TOKEN' \
+    --unattended --replace
+  "
+  
+  echo "Setting up service..."
+  sudo ./svc.sh install
+  sudo ./svc.sh start
+
+  ###################################### GITHUB RUNNER FOR PETCLINIC REPO #####################################
+
+  cd /opt
+  mkdir -p github-runner-petclinic
+  cd github-runner-petclinic
+  
+  echo "Downloading GitHub Actions Runner..."
+  curl -fsSL -o actions-runner-linux-x64-2.329.0.tar.gz \
+    https://github.com/actions/runner/releases/download/v2.329.0/actions-runner-linux-x64-2.329.0.tar.gz
+  
+  echo "Extracting..."
+  tar xzf actions-runner-linux-x64-2.329.0.tar.gz
+  
+  echo "Installing dependencies..."
+  apt-get update -y
+  apt-get install -y jq curl tar unzip
+  
+  GITHUB_PAT="${var.github_pat}"
+  
+  echo "Requesting registration token..."
+  TOKEN_RESULT=$(curl -s -X POST \
+    -H "Authorization: token $GITHUB_PAT" \
+    https://api.github.com/repos/dejanakop/spring-petclinic/actions/runners/registration-token)
+  
+  TOKEN=$(echo "$TOKEN_RESULT" | jq -r .token)
+  
+  if [[ "$TOKEN" == "null" || -z "$TOKEN" ]]; then
+    echo "Failed to get runner token!"
+    echo "$TOKEN_RESULT"
+    exit 1
+  fi
+  
+  echo "Runner token acquired: $TOKEN"
+  
+  echo "Configuring runner..."
+  useradd -m runner
+  chown -R runner:runner /opt/github-runner-petclinic
+  
+  sudo -u runner bash -c "
+  cd /opt/github-runner-petclinic
   ./config.sh \
     --url https://github.com/dejanakop/capstone-infrastructure \
     --token '$TOKEN' \
