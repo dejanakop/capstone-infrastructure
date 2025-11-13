@@ -18,7 +18,7 @@ provider "google" {
 }
 
 resource "google_project_service" "project_apis" {
-  for_each           = var.services
+  for_each           = toset(var.services)
   service            = each.key
   disable_on_destroy = false
 }
