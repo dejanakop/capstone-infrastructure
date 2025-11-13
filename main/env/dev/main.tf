@@ -17,6 +17,11 @@ provider "google" {
   zone    = var.zone
 }
 
+resource "google_project_services" "project_apis" {
+  services           = var.services
+  disable_on_destroy = false
+}
+
 module "network" {
   source                  = "../../modules/network"
   vpc_name                = "${var.base_name}-vpc"
