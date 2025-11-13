@@ -101,6 +101,11 @@ resource "google_compute_instance" "runner_vm" {
   sudo systemctl enable docker
   sudo systemctl start docker
   sudo usermod -aG docker $USER
+
+  # INSTALLING JAVA
+  sudo apt-get install -y openjdk-17-jdk
+  echo 'JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"' >> /etc/environment
+  source /etc/environment
   
   # Wait for network
   echo "Waiting for network..."
