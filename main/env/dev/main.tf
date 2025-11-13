@@ -17,8 +17,9 @@ provider "google" {
   zone    = var.zone
 }
 
-resource "google_project_services" "project_apis" {
-  services           = var.services
+resource "google_project_service" "project_apis" {
+  for_each           = var.services
+  service            = each.key
   disable_on_destroy = false
 }
 
