@@ -104,8 +104,22 @@ resource "google_compute_instance" "runner_vm" {
 
   # INSTALLING JAVA
   sudo apt-get install -y openjdk-17-jdk
-  echo 'JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"' >> /etc/environment
-  source /etc/environment
+  JAVA_HOME_PATH=$(dirname $(dirname $(readlink -f $(which javac))))
+  echo "export JAVA_HOME=${JAVA_HOME_PATH}" > /etc/profile.d/java.sh
+  echo 'export PATH=$JAVA_HOME/bin:$PATH' >> /etc/profile.d/java.sh
+  chmod +x /etc/profile.d/java.sh
+
+  RUNNER_SERVICE_ENV_FILE="/etc/systemd/system/actions.runner.service.d/env.conf"
+  mkdir -p "$(dirname "$RUNNER_SERVICE_ENV_FILE")"
+
+  cat <<EOF > "$RUNNER_SERVICE_ENV_FILE"
+  [Service]
+  Environment="JAVA_HOME=${JAVA_HOME_PATH}"
+  Environment="PATH=${JAVA_HOME_PATH}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+  EOF
+
+  systemctl daemon-reload
+  systemctl restart actions.runner || true
   
   # Wait for network
   echo "Waiting for network..."
