@@ -44,6 +44,8 @@ module "gke" {
   vpc_id                   = module.network.vpc_id
   subnet_id                = module.network.subnet_id
   location                 = var.zone
+  master_ipv4_cidr_block   = var.master_ipv4_cidr_block
+  runner_ip_cidr_range     = var.runner_ip_cidr_range
   node_pool_name           = "${var.base_name}-node-pool"
   node_count               = var.node_count
   node_machine_type        = var.node_machine_type
