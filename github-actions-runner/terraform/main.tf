@@ -193,7 +193,7 @@ resource "google_compute_instance" "runner_vm" {
   sudo -u runner bash -c "
   cd /opt/github-runner-petclinic
   ./config.sh \
-    --url https://github.com/dejanakop/capstone-infrastructure \
+    --url https://github.com/dejanakop/spring-petclinic \
     --token '$TOKEN' \
     --unattended --replace
   "
