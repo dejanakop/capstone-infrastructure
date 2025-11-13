@@ -38,8 +38,4 @@ jobs:
         run: |
           terraform destroy \
           -var="github_pat=${{ secrets.GH_PAT }}" \
-          -var="owner=dejanakop" \
-          -var="repository=capstone-infrastructure" \
-          -var="repository_url=https://github.com/dejanakop/capstone-infrastructure" \
-          -var="github_pat=${{ secrets.GH_PAT }}" \
           --auto-approve
