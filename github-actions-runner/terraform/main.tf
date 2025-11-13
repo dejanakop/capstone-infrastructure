@@ -117,7 +117,7 @@ resource "google_compute_instance" "runner_vm" {
   
   echo "Installing dependencies..."
   apt-get update -y
-  apt-get install -y jq curl tar unzip docker-ce docker-cli
+  apt-get install -y jq curl tar unzip
   
   GITHUB_PAT="${var.github_pat}"
   
