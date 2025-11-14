@@ -7,7 +7,7 @@ terraform {
     }
   }
   backend "gcs" {
-    bucket = "dkop-capstone-github-runner-tf-backend"
+    bucket = var.backend_bucket
   }
 }
 
