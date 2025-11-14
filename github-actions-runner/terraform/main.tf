@@ -7,7 +7,7 @@ terraform {
     }
   }
   backend "gcs" {
-    bucket = var.backend_bucket
+    bucket = "capstone-runner-backend"
   }
 }
 
