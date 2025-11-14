@@ -80,6 +80,7 @@ resource "google_compute_instance" "runner_vm" {
   boot_disk {
     initialize_params {
       image = var.runner_image
+      size  = 50
     }
   }
 
