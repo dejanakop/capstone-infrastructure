@@ -57,27 +57,3 @@ module "gke" {
   auto_upgrade             = var.auto_upgrade
   tags                     = var.target_tags
 }
-
-######################## VPC PEERING ########################
-
-data "google_compute_network" "runner_vpc" {
-  name = "github-actions-runner-dkop-vpc"
-}
-
-resource "google_compute_network_peering" "runner_to_gke" {
-  name         = "peering-runner-to-gke"
-  network      = data.google_compute_network.runner_vpc.id
-  peer_network = module.network.vpc_id
-
-  export_custom_routes = true
-  import_custom_routes = true
-}
-
-resource "google_compute_network_peering" "gke_to_runner" {
-  name         = "peering-gke-to-runner"
-  network      = module.network.vpc_id
-  peer_network = data.google_compute_network.runner_vpc.id
-
-  export_custom_routes = true
-  import_custom_routes = true
-}
