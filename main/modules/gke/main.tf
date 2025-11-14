@@ -7,7 +7,7 @@ resource "google_container_cluster" "cluster" {
   location                 = var.location
   deletion_protection      = false
   private_cluster_config {
-    enable_private_nodes    = true
+    enable_private_nodes = true
   }
 }
 
@@ -22,7 +22,7 @@ resource "google_container_node_pool" "nodes" {
     disk_size_gb = var.disk_size_gb
     tags         = var.tags
     metadata = {
-      enable_private_nodes    = true
+      enable_private_nodes = true
     }
   }
   management {
