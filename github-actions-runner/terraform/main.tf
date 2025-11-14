@@ -40,7 +40,7 @@ resource "google_compute_firewall" "runner_firewall_ingress" {
   network = google_compute_network.runner_vpc.id
   allow {
     protocol = var.protocol
-    ports    = var.ports
+    ports    = var.ingress_ports
   }
   source_ranges = var.source_ranges
   target_tags   = var.target_tags
@@ -52,20 +52,20 @@ resource "google_compute_firewall" "runner_firewall_egress" {
   direction = "EGRESS"
   allow {
     protocol = var.protocol
-    ports    = ["80", "443"]
+    ports    = var.egress_ports
   }
   source_ranges = var.source_ranges
   target_tags   = var.target_tags
 }
 
 resource "google_compute_router" "nat_router" {
-  name    = "nat-router"
+  name    = "${var.base_name}-nat-router"
   network = google_compute_network.runner_vpc.id
   region  = var.region
 }
 
 resource "google_compute_router_nat" "nat" {
-  name                               = "nat-config"
+  name                               = "${var.base_name}-nat-config"
   router                             = google_compute_router.nat_router.name
   region                             = var.region
   nat_ip_allocate_option             = "AUTO_ONLY"
@@ -80,7 +80,7 @@ resource "google_compute_instance" "runner_vm" {
   boot_disk {
     initialize_params {
       image = var.runner_image
-      size  = 50
+      size  = var.runner_disk_size
     }
   }
 
