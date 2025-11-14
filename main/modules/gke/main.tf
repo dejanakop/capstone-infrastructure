@@ -17,14 +17,23 @@ resource "google_container_cluster" "cluster" {
     }
   }
   ip_allocation_policy {
-    cluster_secondary_range_name = null
+    cluster_secondary_range_name  = null
     services_secondary_range_name = null
+  }
+  cluster_autoscaling {
+    enabled = false
+  }
+  addons_config {
+    horizontal_pod_autoscaling {
+      disabled = false
+    }
   }
 }
 
 resource "google_container_node_pool" "nodes" {
   name       = var.node_pool_name
   cluster    = google_container_cluster.cluster.id
+  location   = var.location
   node_count = var.node_count
   node_config {
     machine_type = var.node_machine_type
@@ -35,10 +44,6 @@ resource "google_container_node_pool" "nodes" {
       enable_private_nodes    = true
       enable_private_endpoint = true
     }
-  }
-  autoscaling {
-    total_min_node_count = var.min_node_count
-    total_max_node_count = var.max_node_count
   }
   management {
     auto_repair  = var.auto_repair
