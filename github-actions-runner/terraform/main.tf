@@ -29,7 +29,7 @@ resource "google_project_service" "project_apis" {
 resource "google_compute_network" "runner_vpc" {
   name                    = "${var.base_name}-vpc"
   auto_create_subnetworks = var.auto_create_subnetworks
-  depends_on              = [google_project_service.compute_api]
+  depends_on              = [google_project_service.project_apis]
 }
 
 resource "google_compute_subnetwork" "runner_subnet" {
