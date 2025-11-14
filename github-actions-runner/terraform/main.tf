@@ -15,6 +15,9 @@ provider "google" {
   project = var.project
   region  = var.region
   zone    = var.zone
+  default_labels = {
+    owner = var.owner
+  }
 }
 
 resource "google_project_service" "compute_api" {

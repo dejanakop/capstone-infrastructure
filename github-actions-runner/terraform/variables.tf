@@ -5,6 +5,7 @@ variable "base_name" { type = string }
 variable "project" { type = string }
 variable "region" { type = string }
 variable "zone" { type = string }
+variable "owner" { type = string }
 
 # NETWORK
 variable "auto_create_subnetworks" { type = bool }
