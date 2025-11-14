@@ -28,7 +28,7 @@ jobs:
           project_id: ${{ secrets.PROJECT_ID }}
 
       - name: Download .tfvars file
-        run: gsutil cp ${{ secrets.TF_VARS_PATH }} ./terraform.tfvars
+        run: gsutil cp ${{ secrets.RUNNER_TF_VARS }} ./terraform.tfvars
 
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3.1.2
