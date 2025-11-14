@@ -7,6 +7,9 @@ variable "region" { type = string }
 variable "zone" { type = string }
 variable "owner" { type = string }
 
+# SERVICES
+variable "services" { type = list(string) }
+
 # NETWORK
 variable "auto_create_subnetworks" { type = bool }
 variable "ip_cidr_range" { type = string }

@@ -20,9 +20,9 @@ provider "google" {
   }
 }
 
-resource "google_project_service" "compute_api" {
-  project            = var.project
-  service            = "compute.googleapis.com"
+resource "google_project_service" "project_apis" {
+  for_each           = toset(var.services)
+  service            = each.key
   disable_on_destroy = false
 }
 
