@@ -2,7 +2,6 @@
 variable "base_name" { type = string }
 
 # TERRAFORM & PROVIDER
-variable "backend_bucket" { type = string }
 variable "project" { type = string }
 variable "region" { type = string }
 variable "zone" { type = string }
