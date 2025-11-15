@@ -7,7 +7,7 @@ terraform {
     }
   }
   backend "gcs" {
-    bucket = "dkop-capstone-main-tf-backend"
+    bucket = "capstone-dev-backend"
   }
 }
 
