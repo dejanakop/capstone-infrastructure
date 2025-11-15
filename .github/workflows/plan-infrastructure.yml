@@ -36,9 +36,9 @@ jobs:
 
       - name: Download .tfvars file
         run: |
-          if [[ ${{ env.ENVIRONMENT }} == "dev" ]]; then
+          if [[ "${{ env.ENVIRONMENT }}" == "dev" ]]; then
             gsutil cp ${{ secrets.DEV_TF_VARS }} ./terraform.tfvars
-          elif [[ ${{ env.ENVIRONMENT }} == "production" ]]
+          elif [[ "${{ env.ENVIRONMENT }}" == "production" ]]
             gsutil cp ${{ secrets.PRODUCTION_TF_VARS }} ./terraform.tfvars
           fi
 
