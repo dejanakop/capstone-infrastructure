@@ -7,7 +7,7 @@ terraform {
     }
   }
   backend "gcs" {
-    bucket = "dkop-capstone-main-tf-backend"
+    bucket = "capstone-production-backend"
   }
 }
 
@@ -15,6 +15,12 @@ provider "google" {
   project = var.project
   region  = var.region
   zone    = var.zone
+}
+
+resource "google_project_service" "project_apis" {
+  for_each           = toset(var.services)
+  service            = each.key
+  disable_on_destroy = false
 }
 
 module "network" {
@@ -48,14 +54,4 @@ module "gke" {
   auto_repair              = var.auto_repair
   auto_upgrade             = var.auto_upgrade
   tags                     = var.target_tags
-}
-
-module "db" {
-  source              = "../../modules/db"
-  db_instance_name    = "${var.base_name}-db-instance"
-  db_instance_version = var.db_instance_version
-  db_instance_tier    = var.db_instance_tier
-  db_name             = "${var.base_name}-db"
-  db_username         = var.db_username
-  db_user_password    = var.db_user_password
 }
