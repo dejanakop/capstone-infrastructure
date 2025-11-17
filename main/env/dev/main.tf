@@ -57,11 +57,11 @@ module "gke" {
 }
 
 module "db" {
-  source = "../../modules/db"
-  db_instance_name = "${var.base_name}-db-instance"
+  source              = "../../modules/db"
+  db_instance_name    = "${var.base_name}-db-instance"
   db_instance_version = var.db_instance_version
-  db_instance_tier = var.db_instance_tier
-  db_name = "${var.base_name}-db"
-  db_username = var.db_username
-  db_user_password = var.db_user_password
+  db_instance_tier    = var.db_instance_tier
+  db_name             = "${var.base_name}-db"
+  db_username         = var.db_username
+  db_user_password    = var.db_user_password
 }
