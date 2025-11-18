@@ -7,17 +7,28 @@ on:
   pull_request:
     branches: ["dev", "main"]
 
-env:
-  ENVIRONMENT: "dev"
-
 jobs:
+
+  set_env:
+    runs-on: self-hosted
+    outputs:
+      ENVIRONMENT: ${{ steps.set_env.outputs.ENVIRONMENT }}
+    steps:
+      - name: Set Environment
+        id: set_env
+        run: |
+          if [[ ${{ github.ref }} == "refs/heads/main" ]]; then
+            echo "ENVIRONMENT=production" >> $GITHUB_OUTPUT
+          else
+            echo "ENVIRONMENT=dev" >> $GITHUB_OUTPUT
 
   terraform_check:
   
     runs-on: self-hosted
+    needs: set_env
     defaults:
       run:
-        working-directory: ./main/env/${{ env.ENVIRONMENT }}/
+        working-directory: ./main/env/${{ needs.set_env.outputs.ENVIRONMENT }}/
 
     steps:
 
@@ -36,10 +47,10 @@ jobs:
 
       - name: Download .tfvars file
         run: |
-          if [[ "${{ env.ENVIRONMENT }}" == "dev" ]]; then
-            gsutil cp ${{ secrets.DEV_TF_VARS }} ./terraform.tfvars
-          elif [[ "${{ env.ENVIRONMENT }}" == "production" ]]; then
+          if [[ "${{ needs.set_env.outputs.ENVIRONMENT }}" == "production" ]]; then
             gsutil cp ${{ secrets.PRODUCTION_TF_VARS }} ./terraform.tfvars
+          else
+            gsutil cp ${{ secrets.DEV_TF_VARS }} ./terraform.tfvars
           fi
 
       - name: Setup Node.js
@@ -75,11 +86,11 @@ jobs:
 
   terraform_plan:
 
-    needs: [ "terraform_check" ]
     runs-on: self-hosted
+    needs: [ "terraform_check", "set_env" ]
     defaults:
       run:
-        working-directory: ./main/env/${{ env.ENVIRONMENT }}/
+        working-directory: ./main/env/${{ needs.set_env.outputs.ENVIRONMENT }}/
 
     steps:
 
@@ -98,10 +109,10 @@ jobs:
 
       - name: Download .tfvars file
         run: |
-          if [[ "${{ env.ENVIRONMENT }}" == "dev" ]]; then
-            gsutil cp ${{ secrets.DEV_TF_VARS }} ./terraform.tfvars
-          elif [[ "${{ env.ENVIRONMENT }}" == "production" ]]; then
+          if [[ "${{ needs.set_env.outputs.ENVIRONMENT }}" == "production" ]]; then
             gsutil cp ${{ secrets.PRODUCTION_TF_VARS }} ./terraform.tfvars
+          else
+            gsutil cp ${{ secrets.DEV_TF_VARS }} ./terraform.tfvars
           fi
 
       - name: Setup Node.js
