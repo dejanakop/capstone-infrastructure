@@ -21,6 +21,7 @@ jobs:
             echo "ENVIRONMENT=production" >> $GITHUB_OUTPUT
           else
             echo "ENVIRONMENT=dev" >> $GITHUB_OUTPUT
+          fi
 
   terraform_check:
   
