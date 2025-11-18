@@ -37,3 +37,4 @@ variable "db_instance_version" { type = string }
 variable "db_instance_tier" { type = string }
 variable "db_username" { type = string }
 variable "db_user_password" { type = string }
+variable "psc_address" { type = string }
