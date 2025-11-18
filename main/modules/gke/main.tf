@@ -7,7 +7,16 @@ resource "google_container_cluster" "cluster" {
   location                 = var.location
   deletion_protection      = false
   private_cluster_config {
-    enable_private_nodes = true
+    enable_private_nodes    = true
+    enable_private_endpoint = true
+  }
+  control_plane_endpoints_config {
+    dns_endpoint_config {
+      allow_external_traffic = true
+    }
+    ip_endpoints_config {
+      enabled = false
+    }
   }
 }
 
