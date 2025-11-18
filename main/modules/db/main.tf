@@ -8,6 +8,7 @@ resource "google_sql_database_instance" "petclinic_db_instance" {
         psc_enabled               = true
         allowed_consumer_projects = var.allowed_consumer_projects
       }
+      ipv4_enabled = false
     }
   }
   deletion_protection = false
