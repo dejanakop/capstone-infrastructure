@@ -7,7 +7,7 @@ terraform {
     }
   }
   backend "gcs" {
-    bucket = "capstone-dev-backend"
+    bucket = "capstone-production-backend"
   }
 }
 
