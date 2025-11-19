@@ -23,6 +23,7 @@ resource "google_sql_user" "user" {
   name     = var.db_username
   instance = google_sql_database_instance.petclinic_db_instance.id
   password = var.db_user_password
+  host     = var.host
 }
 
 # PSC
