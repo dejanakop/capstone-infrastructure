@@ -67,6 +67,4 @@ module "db" {
   db_network                 = module.network.vpc_name
   db_name                    = "${var.base_name}-db"
   host                       = var.host
-  db_username_secret_id      = "projects/${var.project}/secrets/DB_USERNAME"
-  db_user_password_secret_id = "projects/${var.project}/secrets/DB_USER_PASSWORD"
 }
