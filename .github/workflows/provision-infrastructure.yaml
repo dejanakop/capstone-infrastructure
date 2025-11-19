@@ -34,15 +34,6 @@ jobs:
         with:
           project_id: ${{ secrets.PROJECT_ID }}
 
-      - name: Download .tfvars file
-        run: |
-          if [[ ${{ github.event.inputs.environment }} == "dev" ]]; then
-            gsutil cp ${{ secrets.DEV_TF_VARS }} ./terraform.tfvars
-          elif [[ ${{ github.event.inputs.environment }} == "production" ]]; then
-            gsutil cp ${{ secrets.PRODUCTION_TF_VARS }} ./terraform.tfvars
-          fi
-          
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -55,4 +46,8 @@ jobs:
         run: terraform init
 
       - name: Terraform Apply
-        run: terraform apply --auto-approve
+        run: |
+          terraform apply --auto-approve \
+          -var="project=${{ secrets.PROJECT_ID }}" \
+          -var="db_username=${{ secrets.DB_USERNAME }}" \
+          -var="db_user_password=${{ secrets.DB_USER_PASSWORD }}"
