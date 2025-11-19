@@ -113,14 +113,6 @@ variable "db_instance_tier" {
   type    = string
   default = "db-f1-micro"
 }
-variable "db_username" {
-  type      = string
-  sensitive = true
-}
-variable "db_user_password" {
-  type      = string
-  sensitive = true
-}
 variable "psc_address" {
   type    = string
   default = "10.20.0.5"

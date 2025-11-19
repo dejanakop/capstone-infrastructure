@@ -66,7 +66,5 @@ module "db" {
   psc_address               = var.psc_address
   db_network                = module.network.vpc_name
   db_name                   = "${var.base_name}-db"
-  db_username               = var.db_username
-  db_user_password          = var.db_user_password
   host                      = var.host
 }
