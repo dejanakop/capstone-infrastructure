@@ -68,4 +68,5 @@ module "db" {
   db_name                   = "${var.base_name}-db"
   db_username               = var.db_username
   db_user_password          = var.db_user_password
+  host                      = var.host
 }
