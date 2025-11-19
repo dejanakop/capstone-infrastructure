@@ -20,17 +20,17 @@ resource "google_sql_database" "petclinic_db" {
 }
 
 data "google_secret_manager_secret_version" "db_username" {
-  secret = "DB_USERNAME"
+  secret = var.db_username_secret_id
 }
 
 data "google_secret_manager_secret_version" "db_user_password" {
-  secret = "DB_USER_PASSWORD"
+  secret = var.db_user_password_secret_id
 }
 
 resource "google_sql_user" "user" {
-  name     = data.google_secret_manager_secret_version.db_username.secret
+  name     = data.google_secret_manager_secret_version.db_username.secret_data
   instance = google_sql_database_instance.petclinic_db_instance.id
-  password = data.google_secret_manager_secret_version.db_user_password.secret
+  password = data.google_secret_manager_secret_version.db_user_password.secret_data
   host     = var.host
 }
 

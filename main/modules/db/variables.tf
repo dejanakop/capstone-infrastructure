@@ -8,3 +8,6 @@ variable "db_subnet" { type = string }
 variable "db_network" { type = string }
 variable "psc_address" { type = string }
 variable "host" { type = string }
+
+variable "db_username_secret_id" { type = string }
+variable "db_user_password_secret_id" { type = string }
