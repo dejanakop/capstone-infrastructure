@@ -46,8 +46,4 @@ jobs:
         run: terraform init
 
       - name: Terraform Apply
-        run: |
-          terraform apply --auto-approve \
-          -var="project=${{ secrets.PROJECT_ID }}" \
-          -var="db_username=${{ secrets.DB_USERNAME }}" \
-          -var="db_user_password=${{ secrets.DB_USER_PASSWORD }}"
+        run: terraform apply --auto-approve -var="project=${{ secrets.PROJECT_ID }}"
