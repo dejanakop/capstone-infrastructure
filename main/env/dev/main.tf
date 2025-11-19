@@ -57,14 +57,14 @@ module "gke" {
 }
 
 module "db" {
-  source                     = "../../modules/db"
-  db_instance_name           = "${var.base_name}-db-instance"
-  db_instance_version        = var.db_instance_version
-  db_instance_tier           = var.db_instance_tier
-  allowed_consumer_projects  = [var.project]
-  db_subnet                  = module.network.subnet_name
-  psc_address                = var.psc_address
-  db_network                 = module.network.vpc_name
-  db_name                    = "${var.base_name}-db"
-  host                       = var.host
+  source                    = "../../modules/db"
+  db_instance_name          = "${var.base_name}-db-instance"
+  db_instance_version       = var.db_instance_version
+  db_instance_tier          = var.db_instance_tier
+  allowed_consumer_projects = [var.project]
+  db_subnet                 = module.network.subnet_name
+  psc_address               = var.psc_address
+  db_network                = module.network.vpc_name
+  db_name                   = "${var.base_name}-db"
+  host                      = var.host
 }
