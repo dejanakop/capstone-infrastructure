@@ -5,7 +5,10 @@ variable "base_name" {
 }
 
 # TERRAFORM
-variable "project" { type = string }
+variable "project" {
+  type      = string
+  sensitive = true
+}
 variable "region" {
   type    = string
   default = "europe-west1"
