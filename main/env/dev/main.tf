@@ -5,7 +5,7 @@ resource "google_project_service" "project_apis" {
 }
 
 module "network" {
-  source                  = "git::https://github.com/dejanakop/capstone-terraform-modules/tree/main/network"
+  source                  = "git::https://github.com/dejanakop/capstone-terraform-modules//network"
   vpc_name                = "${var.base_name}-vpc"
   auto_create_subnetworks = var.auto_create_subnetworks
   subnet_name             = "${var.base_name}-subnet"
