@@ -18,7 +18,7 @@ module "network" {
 }
 
 module "gke" {
-  source                   = "git::https://github.com/dejanakop/capstone-terraform-modules/tree/main/gke"
+  source                   = "git::https://github.com/dejanakop/capstone-terraform-modules//gke"
   cluster_name             = "${var.base_name}-cluster"
   remove_default_node_pool = var.remove_default_node_pool
   initial_node_count       = var.initial_node_count
@@ -38,7 +38,7 @@ module "gke" {
 }
 
 module "db" {
-  source                    = "git::https://github.com/dejanakop/capstone-terraform-modules/tree/main/db"
+  source                    = "git::https://github.com/dejanakop/capstone-terraform-modules//db"
   db_instance_name          = "${var.base_name}-db-instance"
   db_instance_version       = var.db_instance_version
   db_instance_tier          = var.db_instance_tier
