@@ -55,7 +55,7 @@ variable "ports" {
 }
 variable "source_ranges" {
   type    = list(string)
-  default = ["0.0.0.0/0"]
+  default = ["109.111.235.230", "82.117.193.213", "178.148.238.37"]
 }
 variable "target_tags" {
   type    = list(string)
