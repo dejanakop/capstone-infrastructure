@@ -1,22 +1,3 @@
-terraform {
-  required_version = ">= 1.13.4"
-  required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = "7.0.0"
-    }
-  }
-  backend "gcs" {
-    bucket = "capstone-dev-backend"
-  }
-}
-
-provider "google" {
-  project = var.project
-  region  = var.region
-  zone    = var.zone
-}
-
 resource "google_project_service" "project_apis" {
   for_each           = toset(var.services)
   service            = each.key
