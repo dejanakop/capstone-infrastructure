@@ -1,22 +1,3 @@
-terraform {
-  required_version = ">= 1.13.4"
-  required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = "7.0.0"
-    }
-  }
-  backend "gcs" {
-    bucket = "capstone-production-backend"
-  }
-}
-
-provider "google" {
-  project = var.project
-  region  = var.region
-  zone    = var.zone
-}
-
 resource "google_project_service" "project_apis" {
   for_each           = toset(var.services)
   service            = each.key
@@ -24,7 +5,7 @@ resource "google_project_service" "project_apis" {
 }
 
 module "network" {
-  source                  = "../../modules/network"
+  source                  = "git::https://github.com/dejanakop/capstone-terraform-modules.git//network?ref=v1.0.0"
   vpc_name                = "${var.base_name}-vpc"
   auto_create_subnetworks = var.auto_create_subnetworks
   subnet_name             = "${var.base_name}-subnet"
@@ -37,7 +18,7 @@ module "network" {
 }
 
 module "gke" {
-  source                   = "../../modules/gke"
+  source                   = "git::https://github.com/dejanakop/capstone-terraform-modules.git//gke?ref=v1.0.0"
   cluster_name             = "${var.base_name}-cluster"
   remove_default_node_pool = var.remove_default_node_pool
   initial_node_count       = var.initial_node_count
@@ -57,7 +38,7 @@ module "gke" {
 }
 
 module "db" {
-  source                    = "../../modules/db"
+  source                    = "git::https://github.com/dejanakop/capstone-terraform-modules.git//db?ref=v1.0.0"
   db_instance_name          = "${var.base_name}-db-instance"
   db_instance_version       = var.db_instance_version
   db_instance_tier          = var.db_instance_tier
