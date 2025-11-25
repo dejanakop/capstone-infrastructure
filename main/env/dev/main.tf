@@ -5,7 +5,7 @@ resource "google_project_service" "project_apis" {
 }
 
 module "network" {
-  source        = "git::https://github.com/dejanakop/capstone-terraform-modules//network"
+  source        = "git::https://github.com/dejanakop/capstone-terraform-modules.git//network?ref=v1.1.0"
   vpc_name      = "${var.base_name}-vpc"
   subnet_name   = "${var.base_name}-subnet"
   ip_cidr_range = var.ip_cidr_range
@@ -17,7 +17,7 @@ module "network" {
 }
 
 module "gke" {
-  source         = "git::https://github.com/dejanakop/capstone-terraform-modules//gke"
+  source         = "git::https://github.com/dejanakop/capstone-terraform-modules.git//gke?ref=v1.1.0"
   cluster_name   = "${var.base_name}-cluster"
   vpc_id         = module.network.vpc_id
   subnet_id      = module.network.subnet_id
@@ -27,7 +27,7 @@ module "gke" {
 }
 
 module "db" {
-  source                    = "git::https://github.com/dejanakop/capstone-terraform-modules//db"
+  source                    = "git::https://github.com/dejanakop/capstone-terraform-modules.git//db?ref=v1.1.0"
   db_instance_name          = "${var.base_name}-db-instance"
   allowed_consumer_projects = [var.project]
   db_subnet                 = module.network.subnet_name
