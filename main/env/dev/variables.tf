@@ -36,10 +36,6 @@ variable "services" {
 }
 
 # NETWORK
-variable "auto_create_subnetworks" {
-  type    = bool
-  default = false
-}
 variable "ip_cidr_range" {
   type    = string
   default = "10.20.0.0/24"
@@ -62,62 +58,8 @@ variable "target_tags" {
   default = ["dkop-dev"]
 }
 
-# CLUSTER
-variable "remove_default_node_pool" {
-  type    = bool
-  default = true
-}
-variable "initial_node_count" {
-  type    = number
-  default = 1
-}
-variable "node_count" {
-  type    = number
-  default = 1
-}
-variable "node_machine_type" {
-  type    = string
-  default = "e2-standard-2"
-}
-variable "disk_type" {
-  type    = string
-  default = "pd-ssd"
-}
-variable "disk_size_gb" {
-  type    = number
-  default = 20
-}
-variable "min_node_count" {
-  type    = number
-  default = 1
-}
-variable "max_node_count" {
-  type    = number
-  default = 5
-}
-variable "auto_repair" {
-  type    = bool
-  default = true
-}
-variable "auto_upgrade" {
-  type    = bool
-  default = true
-}
-
 # DATABASE
-variable "db_instance_version" {
-  type    = string
-  default = "MYSQL_8_0"
-}
-variable "db_instance_tier" {
-  type    = string
-  default = "db-f1-micro"
-}
 variable "psc_address" {
   type    = string
   default = "10.20.0.5"
-}
-variable "host" {
-  type    = string
-  default = "%"
 }
